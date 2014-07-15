@@ -1,13 +1,19 @@
 #This script provides the command and control utility for the
 #GigaSpaces Technologies Inc. Service Grid
 
-"%~dp0\..\tools\groovy\bin\groovy.bat" "%~dp0\gs.groovy" %*
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+$DIR/../tools/groovy/bin/groovy $DIR/gs.groovy $*
 
-if %errorlevel% EQU 99 exit 0
+if [ $? = 99 ]; then
+  exit 0
+fi
 
-if %errorlevel% NEQ 0 exit %errorlevel%
+if [ $? != 0 ];then
+  exit $?
+fi
 
-rem got this far, just call regular
-call "%~dp0\gs.bat" %*
+#got this far, just call regular
+$DIR/gs.sh $*
 
-exit %errorlevel%
+exit $?
+
